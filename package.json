@@ -12,8 +12,9 @@
   "scripts": {
     "clean": "rimraf coverage build tmp",
     "build:release": "npm run clean && tsc -p tsconfig.release.json",
-    "start": "node build/src/app.js",
-    "start:dev": "nodemon"
+    "start:release": "node build/src/app.js",
+    "start:dev": "nodemon",
+    "start": "ts-node ./src/app.ts"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
@@ -29,6 +30,10 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
+    "@langchain/core": "^0.2.15",
+    "@langchain/openai": "^0.2.1",
+    "dotenv": "^16.4.5",
+    "langchain": "^0.2.9",
     "tslib": "^2.6.3"
   }
 }
