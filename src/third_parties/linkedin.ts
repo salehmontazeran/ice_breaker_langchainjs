@@ -30,7 +30,7 @@ export const scrape_linkedin_profile = async (
                 }).toString(),
             {
                 headers,
-                // signal: AbortSignal.timeout(20_000),
+                signal: AbortSignal.timeout(10_000),
             },
         )
         const data: any = await res.json()
