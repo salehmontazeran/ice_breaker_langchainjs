@@ -7,11 +7,13 @@ export const scrape_linkedin_profile = async (
     linkedin_profile_url: string,
     mock: boolean = false,
 ) => {
+    console.log('scrape_linkedin_profile ' + String(linkedin_profile_url))
+
+    let res: any
     if (mock) {
-        const res = await fetch(mock_linkedin_profile_url, {
+        res = await fetch(mock_linkedin_profile_url, {
             signal: AbortSignal.timeout(10_000),
         })
-        return res
     } else {
         console.log('Start fetch real URL')
         console.log(
@@ -22,7 +24,7 @@ export const scrape_linkedin_profile = async (
                 }).toString(),
         )
         console.log(headers)
-        const res = await fetch(
+        res = await fetch(
             api_endpoint +
                 '?' +
                 new URLSearchParams({
@@ -33,18 +35,17 @@ export const scrape_linkedin_profile = async (
                 signal: AbortSignal.timeout(10_000),
             },
         )
-        const data: any = await res.json()
-        console.log(data)
-
-        return Object.entries(data)
-            .filter(
-                ([k, v]) =>
-                    !['people_also_viewed', 'certifications'].includes(k) &&
-                    [[], '', '', null].includes(v as any),
-            )
-            .reduce((acc: any, [key, value]) => {
-                acc[key] = value
-                return acc
-            }, {})
     }
+
+    const data: any = await res.json()
+    return Object.entries(data)
+        .filter(
+            ([k, v]) =>
+                !['people_also_viewed', 'certifications'].includes(k) &&
+                ![[], '', null].includes(v as any),
+        )
+        .reduce((acc: any, [key, value]) => {
+            acc[key] = value
+            return acc
+        }, {})
 }
