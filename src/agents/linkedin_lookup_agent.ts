@@ -1,8 +1,7 @@
 import { PromptTemplate } from '@langchain/core/prompts'
+import { DynamicTool } from '@langchain/core/tools'
 import { AgentExecutor, createReactAgent } from 'langchain/agents'
 import { pull } from 'langchain/hub'
-import { DynamicStructuredTool } from 'langchain/tools'
-import { z } from 'zod'
 
 import { get_profile_url_tavily } from '../tools'
 import { open_ai_llm as llm } from '../usable_resources'
@@ -12,13 +11,10 @@ export const lookup = async (name: string) => {
                           Your answer should contain only a URL`
     const prompt_template = new PromptTemplate({ template, inputVariables: ['name_of_person'] })
 
-    const tools_for_agent = [
-        new DynamicStructuredTool({
-            name: 'Crawl Google 4 linkedin profile page',
+    const tools = [
+        new DynamicTool({
+            name: 'Crawl Google for linkedin profile page',
             description: 'useful for when you need get the Linkedin Page URL',
-            schema: z.object({
-                name: z.string(),
-            }),
             func: get_profile_url_tavily,
         }),
     ]
@@ -27,23 +23,22 @@ export const lookup = async (name: string) => {
 
     const agent = await createReactAgent({
         llm,
-        tools: tools_for_agent,
+        tools,
         prompt: react_prompt,
     })
 
     const agent_executer = new AgentExecutor({
         agent,
-        tools: tools_for_agent,
+        tools,
         // verbose: true,
     })
 
     const res = await agent_executer.invoke({
-        input: {
-            input: await prompt_template.formatPromptValue({
-                name_of_person: name,
-            }),
-        },
+        input: await prompt_template.format({
+            name_of_person: name,
+        }),
     })
 
-    console.log(res)
+    const linked_profile_url = res['output']
+    return linked_profile_url
 }

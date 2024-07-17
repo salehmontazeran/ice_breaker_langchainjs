@@ -7,7 +7,7 @@ export const scrape_linkedin_profile = async (
     linkedin_profile_url: string,
     mock: boolean = false,
 ) => {
-    console.log('scrape_linkedin_profile ' + String(linkedin_profile_url))
+    // console.log('scrape_linkedin_profile ' + String(linkedin_profile_url))
 
     let res: any
     if (mock) {
@@ -15,15 +15,7 @@ export const scrape_linkedin_profile = async (
             signal: AbortSignal.timeout(10_000),
         })
     } else {
-        console.log('Start fetch real URL')
-        console.log(
-            api_endpoint +
-                '?' +
-                new URLSearchParams({
-                    url: linkedin_profile_url,
-                }).toString(),
-        )
-        console.log(headers)
+        // console.log('Start fetch real URL')
         res = await fetch(
             api_endpoint +
                 '?' +

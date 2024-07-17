@@ -1,1 +1,1 @@
-# Node.js + TypeScript Starter Template
+# Ice Breaker using LangchainJS
