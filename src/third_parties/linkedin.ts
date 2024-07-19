@@ -1,21 +1,19 @@
-const mock_linkedin_profile_url =
-    'https://gist.githubusercontent.com/emarco177/0d6a3f93dd06634d95e46a2782ed7490/raw/78233eb934aa9850b689471a604465b188e761a0/eden-marco.json'
-const api_endpoint = 'https://nubela.co/proxycurl/api/v2/linkedin'
-const headers = { Authorization: `Bearer ${process.env.PROXYCURL__API_KEY}` }
-
 export const scrape_linkedin_profile = async (
     linkedin_profile_url: string,
     mock: boolean = false,
 ) => {
-    // console.log('scrape_linkedin_profile ' + String(linkedin_profile_url))
+    const mock_linkedin_profile_url =
+        'https://gist.githubusercontent.com/emarco177/0d6a3f93dd06634d95e46a2782ed7490/raw/78233eb934aa9850b689471a604465b188e761a0/eden-marco.json'
+    const api_endpoint = 'https://nubela.co/proxycurl/api/v2/linkedin'
+    const headers = { Authorization: `Bearer ${process.env.PROXYCURL__API_KEY}` }
 
     let res: any
+
     if (mock) {
         res = await fetch(mock_linkedin_profile_url, {
             signal: AbortSignal.timeout(10_000),
         })
     } else {
-        // console.log('Start fetch real URL')
         res = await fetch(
             api_endpoint +
                 '?' +
