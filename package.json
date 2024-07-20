@@ -32,6 +32,7 @@
   "dependencies": {
     "@langchain/community": "^0.2.18",
     "@langchain/core": "^0.2.15",
+    "@langchain/groq": "^0.0.15",
     "@langchain/openai": "^0.2.1",
     "dotenv": "^16.4.5",
     "langchain": "^0.2.9",

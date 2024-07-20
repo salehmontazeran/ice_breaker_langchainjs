@@ -2,7 +2,7 @@ import { PromptTemplate } from '@langchain/core/prompts'
 import { RunnableSequence } from '@langchain/core/runnables'
 
 import { ice_breaker_parser, summary_parser, topic_of_interest_parser } from '../output_parsers'
-import { open_ai_llm } from '../usable_resources'
+import { general_llm as llm } from '../usable_resources'
 
 export const get_summary_chain = () => {
     const template = `
@@ -19,7 +19,7 @@ export const get_summary_chain = () => {
         },
     })
 
-    return RunnableSequence.from([propmpt_template, open_ai_llm, summary_parser])
+    return RunnableSequence.from([propmpt_template, llm, summary_parser])
 }
 
 export const get_interest_chain = () => {
@@ -36,7 +36,7 @@ export const get_interest_chain = () => {
         },
     })
 
-    return RunnableSequence.from([propmpt_template, open_ai_llm, topic_of_interest_parser])
+    return RunnableSequence.from([propmpt_template, llm, topic_of_interest_parser])
 }
 
 export const get_ice_breaker_chain = () => {
@@ -53,5 +53,5 @@ export const get_ice_breaker_chain = () => {
         },
     })
 
-    return RunnableSequence.from([propmpt_template, open_ai_llm, ice_breaker_parser])
+    return RunnableSequence.from([propmpt_template, llm, ice_breaker_parser])
 }

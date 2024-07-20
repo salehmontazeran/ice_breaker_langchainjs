@@ -9,9 +9,16 @@ import {
 import { scrape_linkedin_profile } from './third_parties/linkedin'
 
 ;(async () => {
-    const p = await lookup('Your Name')
-    const linkedin_profile = await scrape_linkedin_profile(p, true)
+    console.time('test')
+
+    const p = await lookup('Saleh Montazeran')
+    console.log(p)
+    console.timeEnd('test')
+    console.time('scrape')
+    const linkedin_profile = await scrape_linkedin_profile(p, false)
     const linkedin_profile_ctx = `Job headline: ${linkedin_profile['headline']} - Carear summary: ${linkedin_profile['summary']}`
+    console.log(linkedin_profile_ctx)
+    console.timeEnd('scrape')
 
     const summary_chain = get_summary_chain()
     const summary = await summary_chain.invoke({ information: linkedin_profile_ctx })
