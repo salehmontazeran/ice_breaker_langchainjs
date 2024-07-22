@@ -5,7 +5,7 @@ import { pull } from 'langchain/hub'
 import z from 'zod'
 
 import { get_profile_url_tavily } from '../tools'
-import { general_llm as llm } from '../usable_resources'
+import { llama3_groq_8b_ts as ts } from '../usable_resources'
 
 export const lookup = async (name: string) => {
     const template = `given the full name {name_of_person} I want you to get it me a link to their Linkedin profile page.
@@ -46,7 +46,7 @@ export const lookup = async (name: string) => {
     const react_prompt = await pull<PromptTemplate>('hwchase17/react')
 
     const agent = await createReactAgent({
-        llm,
+        llm: ts,
         tools,
         prompt: react_prompt,
     })
